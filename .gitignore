@@ -1,5 +1,4 @@
 # for workspace
 dataset/
-
-
-
+*.pyc
+__pycache__/
