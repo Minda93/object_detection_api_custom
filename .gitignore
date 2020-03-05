@@ -1,4 +1,6 @@
 # for workspace
 dataset/
-*.pyc
 __pycache__/
+save_models/
+
+*.pyc
