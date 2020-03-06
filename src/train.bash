@@ -8,8 +8,8 @@ mkdir -p logs/
 now=$(date +"%Y_%m_%d")
 python3 /workspace/minda/github/detect_ws/models/research/object_detection/legacy/train.py \
 --logtostderr \
---train_dir=${MODEL_DIR} 2>&1 | tee logs/train_$now.txt \
 --pipeline_config_path=${CONFIG_FILE} \
 --pytorch_weight_path=${WEIGHT_FILE} \
 --pytorch_layers_path=${LAYERS_FILE} \
---load_pytorch=True
+--load_pytorch=False \
+--train_dir=${MODEL_DIR} 2>&1 | tee logs/train_$now.txt

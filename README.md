@@ -109,7 +109,7 @@
         # 批次大小(依照 GPU 記憶體大小調整)
         batch_size: 32 
 
-        # 每步之批次大小 分批計算 loss 後整合計算
+        # 每步之批次大小 分批計算 loss 後整合更新權重
         sync_replicas: true
         startup_delay_steps: 0.0
         replicas_to_aggregate: 8
@@ -128,6 +128,9 @@
         # load dataset to train
         tf_record_input_reader {
           input_path: "trainval.record"
+          
+          # load multiple record file
+          #input_path: ["train_a.record","train_b.record"]
         }
       }
 
@@ -227,7 +230,7 @@
 
 ## TO DOO
 1. 新增權重載點
-2. 調整 tensorflow model 計算 mAP 下降 2 % (主要原因加入fake quantion node)
+2. 調整 tensorflow model 計算 mAP 下降 2 % (主要原因加入fake quantization node)
 3. 量化訓練調整
 4. 增加 config file 教學
 
