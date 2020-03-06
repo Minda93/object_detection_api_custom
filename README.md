@@ -151,24 +151,24 @@
     * 讀取權重是利用 "pickle 檔" 讀取
     
     A. 編輯 train.bash
-        ```bash
-            python <path_of_train.py>
+    ```bash
+        python <path_of_train.py>
 
-            # 輸出模型位置
-            --train_dir=<output_path>
+        # 輸出模型位置
+        --train_dir=<output_path>
 
-            # 模型參數檔位置
-            --pipeline_config_path=<config_path>
+        # 模型參數檔位置
+        --pipeline_config_path=<config_path>
 
-            # pytorch 權重位置
-            --pytorch_weight_path=<pickle_path>
+        # pytorch 權重位置
+        --pytorch_weight_path=<pickle_path>
 
-            # pytorch all layer names (按照 tensorflow model 順序)
-            --pytorch_layers_path=<path_of_all_layer_name.txt>
+        # pytorch all layer names (按照 tensorflow model 順序)
+        --pytorch_layers_path=<path_of_all_layer_name.txt>
 
-            # 讀取 pytorch 權重 (fine_tune_checkpoint 需開啟)
-            --load_pytorch=True
-        ```
+        # 讀取 pytorch 權重 (fine_tune_checkpoint 需開啟)
+        --load_pytorch=True
+    ```
 ## Demo tensorflow model
 1. 固化模型
     A. 編輯 frozen_graph.bash
