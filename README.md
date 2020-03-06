@@ -59,7 +59,7 @@
     ```
     B. 執行
     ```bash
-      $ python scripts/xml_to_csv.py --config_path <your_xml2csv_config_json_path>
+      $ python xml_to_csv.py --config_path <your_xml2csv_config_json_path>
     ```
 2. csv to tfrecord
     A. 編輯 generate_tfrecord_config.json
@@ -81,7 +81,7 @@
     ```
     C. 執行
     ```bash
-      $ python scripts/generate_tfrecord.py --config_path <your_generate_tfrecord_config_json_path>
+      $ python generate_tfrecord.py --config_path <your_generate_tfrecord_config_json_path>
     ```
 3. Build your pbtxt, follow the style as below
     * 需符合dataset class 格式
@@ -149,7 +149,7 @@
     
     A. 編輯 train.bash
         ```bash
-            python3 <path_of_train.py>
+            python <path_of_train.py>
 
             # 輸出模型位置
             --train_dir=<output_path>
@@ -167,7 +167,63 @@
             --load_pytorch=True
         ```
 ## Demo tensorflow model
-1. 
+1. 固化模型
+    A. 編輯 frozen_graph.bash
+    ```bash
+        python <path_of_export_inference_graph.py>
+        
+        # 訓練模型的參數檔位置
+        --pipeline_config_path=<config_path>
+        
+        # 訓練模型的權重位置
+        --trained_checkpoint_prefix=<ckpt_path>
+        
+        # 固化模型輸出位置
+        --output_directory=<output_dir>
+    ```
+2. 測試模型
+    A. 編輯 detect_process.json
+    ```bash
+        * PATH_FROZEN_GRAPH : 固化模型位置
+        * PATH_TO_LABELS : dataset class label 位置
+        * DATASET_NAME: our, voc case
+        * NUM_CLASSES: class num
+        * THRESHOLD_BBOX: bounding box 閥值
+        
+        * VIDEO_FILE : 測試影片位置
+        * IMAGE_DATASET : 測試多張圖片位置
+        * SINGE_IMAGE : 測試單張圖片位置
+        
+        * RESULT_OUT : 結果儲存位置
+        
+        # 未用到
+        * PATH_TFLITE : tflite 模型位置
+        * PATH_TPU : edgetpu 模型位置
+        
+        # 目前廢棄
+        * VAL_MAP :  用於驗證精準度之測試集位置
+        * VAL_MAP_OUT : 輸出測試格式
+    ```
+    B. 執行 demo
+    ```bash
+        $ python detect_process.py
+        
+        # args
+            # 參數檔位置
+            --config_path = <path_of_detect_process.json>
+
+            # 選擇模型 <graph tflite tpu>
+            --engine=graph
+
+            # 測試模式 <video, image, images>
+            --mode=video
+
+            # 儲存圖片
+            --save=false
+
+            # 顯示圖片
+            --show=true
+    ```
 
 ## TO DOO
 1. 新增權重載點
