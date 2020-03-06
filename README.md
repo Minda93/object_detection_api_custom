@@ -35,3 +35,4 @@
  * [object detection api](https://github.com/tensorflow/models/tree/master/research/object_detection)
  * [lufficc pytorch ssd](https://github.com/lufficc/SSD?fbclid=IwAR2WFi1g6gbpH8GzSBBO-ERHTUIX7VXbPbTtK5Z-kIT1h-dSWlx3GEHkkqc)
  * [object detection api setting](https://blog.gtwang.org/programming/tensorflow-object-detection-api-tutorial/)
+ * [ＧＯＯＧＬＥ　ＡＰＩ　ＧＵＩＤＥＳ](https://github.com/AcgEuSmile/Tensorboard_object_detection_api)

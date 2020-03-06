@@ -1,4 +1,4 @@
 {
   "label_path": "/workspace/minda/github/detect_ws/dataset/bdd/BDD_train/Annotations/",
-  "out_path": "//workspace/minda/github/detect_ws/dataset/bdd/BDD_train/trainval.csv"
+  "out_path": "/workspace/minda/github/detect_ws/dataset/bdd/BDD_train/trainval.csv"
 }
