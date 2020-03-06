@@ -19,6 +19,7 @@ This file provides a generic training method that can be used to train a
 DetectionModel.
 """
 import sys
+import pickle
 import functools
 
 import tensorflow as tf
@@ -221,7 +222,10 @@ def train(create_tensor_dict_fn,
           worker_job_name,
           is_chief,
           train_dir,
-          graph_hook_fn=None):
+          graph_hook_fn=None,
+          load_pytorch = False,
+          pytorch_weight_path = "",
+          pytorch_layers_path = ""):
   """Training function for detection models.
 
   Args:
@@ -392,64 +396,65 @@ def train(create_tensor_dict_fn,
           fine_tune_checkpoint_type=train_config.fine_tune_checkpoint_type,
           load_all_detection_checkpoint_vars=(
               train_config.load_all_detection_checkpoint_vars))
-      available_var_map = (variables_helper.
-                           get_variables_available_in_checkpoint(
+      
+      
+      if(load_pytorch == False):
+        available_var_map = (variables_helper.
+                             get_variables_available_in_checkpoint(
                                var_map, train_config.fine_tune_checkpoint,
                                include_global_step=False))
-      
-      init_saver = tf.train.Saver(available_var_map)
-      def initializer_fn(sess):
-        init_saver.restore(sess, train_config.fine_tune_checkpoint)
-      init_fn = initializer_fn
-
-      # ============
-      # custom
-      # init_saver = tf.train.Saver(available_var_map)
-
-      # # load pytorch model
-      # weight_dict = get_from_file()
-      # all_layer_name = get_all_layer_name()
-
-      # # tensorflow model
-      # vars = [v for v in tf.global_variables()]
-
-      # # assign weight
-      # count_layer = 0
-      # custom_modify_list = []
-      # feed_dict_list = []
-      # for ind in range(len(vars)):
-      #   if(vars[ind].name[:-2].find("RMSProp") != -1 or
-      #      vars[ind].name[:-2].find("quant") != -1 ):
-      #     break
-          
-      #   if(vars[ind].name[:-2].find("global_step") != -1):
-      #     continue
-          
-      #   if(count_layer == len(all_layer_name)):
-      #     break
+        init_saver = tf.train.Saver(available_var_map)
+        def initializer_fn(sess):
+          init_saver.restore(sess, train_config.fine_tune_checkpoint)
+        init_fn = initializer_fn
+      else:
+        # ============
+        # custom
         
-      #   name = all_layer_name[count_layer]
-      #   weight = weight_dict[name]
-      #   count_layer += 1
+        # load pytorch model
+        weight_dict = get_from_file(pytorch_weight_path)
+        all_layer_name = get_all_layer_name(pytorch_layers_path)
 
-      #   print(vars[ind].name[:-2], vars[ind].shape, name, weight.shape)
-      #   modify_op, feed_dict_init = slim.assign_from_values({
-      #     vars[ind].name[:-2] : weight,
-      #   })
+        # tensorflow model
+        vars = [v for v in tf.global_variables()]
 
-      #   custom_modify_list.append(modify_op)
-      #   feed_dict_list.append(feed_dict_init)
-        
-      # # sys.exit()
+        # assign weight
+        count_layer = 0
+        custom_modify_list = []
+        feed_dict_list = []
+        for ind in range(len(vars)):
+          if(vars[ind].name[:-2].find("RMSProp") != -1 or
+             vars[ind].name[:-2].find("quant") != -1 ):
+            break
 
-      # def initializer_fn(sess):
-      #   # load backbone
-      #   for ind in range(len(custom_modify_list)):
-      #     sess.run(custom_modify_list[ind], feed_dict_list[ind])
-      #     print(ind)
-      
-      # init_fn = initializer_fn
-      # ============
+          if(vars[ind].name[:-2].find("global_step") != -1):
+            continue
+
+          if(count_layer == len(all_layer_name)):
+            break
+
+          name = all_layer_name[count_layer]
+          weight = weight_dict[name]
+          count_layer += 1
+
+          print(vars[ind].name[:-2], vars[ind].shape, name, weight.shape)
+          modify_op, feed_dict_init = slim.assign_from_values({
+            vars[ind].name[:-2] : weight,
+          })
+
+          custom_modify_list.append(modify_op)
+          feed_dict_list.append(feed_dict_init)
+
+          # sys.exit()
+
+        def initializer_fn(sess):
+          # load backbone
+          for ind in range(len(custom_modify_list)):
+            sess.run(custom_modify_list[ind], feed_dict_list[ind])
+            print(ind)
+
+        init_fn = initializer_fn
+        # ============
 
     # check_model()
 
@@ -484,18 +489,17 @@ def check_model():
   
   sys.exit()
 
-def get_from_file():
-  import pickle
-  save_path = "/media/minda/storage/pytorch_model/models/mobilenet_fpn_r2_512_bdd_anchor3/weight_tf.pickle"
+def get_from_file(load_path):
+#   save_path = "/media/minda/storage/pytorch_model/models/mobilenet_fpn_r2_512_bdd_anchor3/weight_tf.pickle"
   # save_path = "/media/minda/storage/pytorch_model/models/mobilenet_fpn_r2_512_voc_anchor_3/weight_tf.pickle"
-  with open(save_path, "rb") as loadfile:
+  with open(load_path, "rb") as loadfile:
     weight_dict = pickle.load(loadfile)
     return weight_dict
 
-def get_all_layer_name():
-  save_path = "/media/minda/storage/pytorch_model/models/mobilenet_fpn_r2_512_bdd_anchor3/layer_name_custom.txt"
+def get_all_layer_name(load_path):
+#   save_path = "/media/minda/storage/pytorch_model/models/mobilenet_fpn_r2_512_bdd_anchor3/layer_name_custom.txt"
   # save_path = "/media/minda/storage/pytorch_model/models/mobilenet_fpn_r2_512_voc_anchor_3/layer_name_custom.txt"
-  with open(save_path, "r") as loadfile:
+  with open(load_path, "r") as loadfile:
     all_layer_name = []
     for line in loadfile.readlines():
       line = line.strip()

@@ -82,6 +82,17 @@ flags.DEFINE_string('input_config_path', '',
 flags.DEFINE_string('model_config_path', '',
                     'Path to a model_pb2.DetectionModel config file.')
 
+# ============
+# custom
+
+flags.DEFINE_boolean('load_pytorch', False,
+                     'wheather load pytorch model (default False)')
+flags.DEFINE_string('pytorch_weight_path', '',
+                    'Path to a pytorch weight file.')
+flags.DEFINE_string('pytorch_layers_path', '',
+                    'Path to a pytorch all layers name file.')
+# ============
+
 FLAGS = flags.FLAGS
 
 
@@ -164,7 +175,7 @@ def main(_):
   if 'graph_rewriter_config' in configs:
     graph_rewriter_fn = graph_rewriter_builder.build(
         configs['graph_rewriter_config'], is_training=True)
-
+  
   trainer.train(
       create_input_dict_fn,
       model_fn,
@@ -178,7 +189,10 @@ def main(_):
       worker_job_name,
       is_chief,
       FLAGS.train_dir,
-      graph_hook_fn=graph_rewriter_fn)
+      graph_hook_fn=graph_rewriter_fn, 
+      load_pytorch=FLAGS.load_pytorch,
+      pytorch_weight_path=FLAGS.pytorch_weight_path,
+      pytorch_layers_path=FLAGS.pytorch_layers_path)
 
 
 if __name__ == '__main__':
