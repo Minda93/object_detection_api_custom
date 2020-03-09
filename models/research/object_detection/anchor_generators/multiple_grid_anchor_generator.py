@@ -323,7 +323,8 @@ def create_ssd_anchors(num_layers=6,
     # for computing an interpolated scale for the largest scale in the list.
     # scales += [1.0]
     # scales += [1.050097656]
-    scales += [0.9]
+    # scales += [0.9]
+    pass
 
   for layer, scale, scale_next in zip(
       range(num_layers), scales[:-1], scales[1:]):
