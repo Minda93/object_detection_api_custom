@@ -16,6 +16,6 @@
   "IMAGE_DATASET": "../dataset/waymo/waymo_demo/Unlabel_JPG/FRONT_LEFT",
   "SINGE_IMAGE": "../dataset/demo/images/be559b8b-00000000.jpg",
 
-  "RESULT_OUT": "../out/demo/ssd_mobilenet_v2_fe_512x512_bilinear/bbox_result",
+  "RESULT_OUT": "../out/demo/ssdlite_mobilenet_v2_fpn_512_r2_anchor_3_bdd/bbox_result",
   "VAL_MAP_OUT": "../out/demo/ssd_mobilenet_v2_fe_512x512_bilinear/bdd100k_val.json"
 }

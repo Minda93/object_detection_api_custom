@@ -123,7 +123,8 @@ class ConvolutionalBoxHead(head.Head):
                box_code_size,
                kernel_size,
                use_depthwise=False,
-               box_encodings_clip_range=None):
+               box_encodings_clip_range=None,
+               reduce_last_predict_layer=1):
     """Constructor.
 
     Args:
@@ -150,6 +151,7 @@ class ConvolutionalBoxHead(head.Head):
     self._kernel_size = kernel_size
     self._use_depthwise = use_depthwise
     self._box_encodings_clip_range = box_encodings_clip_range
+    self._reduce_last_predict_layer = reduce_last_predict_layer
 
   def predict(self, features, num_predictions_per_location):
     """Predicts boxes.
@@ -182,7 +184,7 @@ class ConvolutionalBoxHead(head.Head):
       # ============
       # custom
       # if(net.shape[1] != 1):
-      if(net.shape[1] != 2):
+      if(net.shape[1] != self._reduce_last_predict_layer):
         # normal 
         # box_encodings = slim.separable_conv2d(
         #   net, None, [self._kernel_size, self._kernel_size],

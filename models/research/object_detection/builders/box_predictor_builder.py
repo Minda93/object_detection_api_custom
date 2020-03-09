@@ -46,7 +46,8 @@ def build_convolutional_box_predictor(is_training,
                                       add_background_class=True,
                                       class_prediction_bias_init=0.0,
                                       use_depthwise=False,
-                                      box_encodings_clip_range=None):
+                                      box_encodings_clip_range=None,
+                                      reduce_last_predict_layer=1):
   """Builds the ConvolutionalBoxPredictor from the arguments.
 
   Args:
@@ -91,7 +92,8 @@ def build_convolutional_box_predictor(is_training,
       box_code_size=box_code_size,
       kernel_size=kernel_size,
       use_depthwise=use_depthwise,
-      box_encodings_clip_range=box_encodings_clip_range)
+      box_encodings_clip_range=box_encodings_clip_range,
+      reduce_last_predict_layer=reduce_last_predict_layer)
   class_prediction_head = class_head.ConvolutionalClassHead(
       is_training=is_training,
       num_class_slots=num_classes + 1 if add_background_class else num_classes,
@@ -100,7 +102,8 @@ def build_convolutional_box_predictor(is_training,
       kernel_size=kernel_size,
       apply_sigmoid_to_scores=apply_sigmoid_to_scores,
       class_prediction_bias_init=class_prediction_bias_init,
-      use_depthwise=use_depthwise)
+      use_depthwise=use_depthwise,
+      reduce_last_predict_layer=reduce_last_predict_layer)
   other_heads = {}
   return convolutional_box_predictor.ConvolutionalBoxPredictor(
       is_training=is_training,
@@ -695,6 +698,7 @@ def build(argscope_fn, box_predictor_config, is_training, num_classes,
       box_encodings_clip_range = BoxEncodingsClipRange(
           min=config_box_predictor.box_encodings_clip_range.min,
           max=config_box_predictor.box_encodings_clip_range.max)
+
     return build_convolutional_box_predictor(
         is_training=is_training,
         num_classes=num_classes,
@@ -712,7 +716,8 @@ def build(argscope_fn, box_predictor_config, is_training, num_classes,
         class_prediction_bias_init=(
             config_box_predictor.class_prediction_bias_init),
         use_depthwise=config_box_predictor.use_depthwise,
-        box_encodings_clip_range=box_encodings_clip_range)
+        box_encodings_clip_range=box_encodings_clip_range,
+        reduce_last_predict_layer=config_box_predictor.reduce_last_predict_layer)
 
   if  box_predictor_oneof == 'weight_shared_convolutional_box_predictor':
     config_box_predictor = (

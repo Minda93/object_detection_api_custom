@@ -63,6 +63,11 @@ message ConvolutionalBoxPredictor {
     optional float max = 2;
   }
   optional BoxEncodingsClipRange box_encodings_clip_range = 12;
+  
+  // reduce last predict layer 
+  // last predict layer convolution only use kernel 1x1
+  // the number is representative of the minimal feature map
+  optional int32 reduce_last_predict_layer = 13 [default = 1];
 }
 
 // Configuration proto for weight shared convolutional box predictor.

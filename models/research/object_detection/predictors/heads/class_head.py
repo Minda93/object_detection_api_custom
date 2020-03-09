@@ -119,6 +119,7 @@ class ConvolutionalClassHead(head.Head):
                apply_sigmoid_to_scores=False,
                class_prediction_bias_init=0.0,
                use_depthwise=False,
+               reduce_last_predict_layer=1,
                scope='ClassPredictor'):
     """Constructor.
 
@@ -159,6 +160,7 @@ class ConvolutionalClassHead(head.Head):
     self._apply_sigmoid_to_scores = apply_sigmoid_to_scores
     self._class_prediction_bias_init = class_prediction_bias_init
     self._use_depthwise = use_depthwise
+    self._reduce_last_predict_layer = reduce_last_predict_layer
     self._scope = scope
 
   def predict(self, features, num_predictions_per_location):
@@ -195,7 +197,7 @@ class ConvolutionalClassHead(head.Head):
       # ============
       # custom
       # if(net.shape[1] != 1):
-      if(net.shape[1] != 2):
+      if(net.shape[1] != self._reduce_last_predict_layer):
         depthwise_scope = self._scope + '_depthwise'
         # normal 
         # class_predictions_with_background = slim.separable_conv2d(
