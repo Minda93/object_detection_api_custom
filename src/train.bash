@@ -6,7 +6,7 @@ LAYERS_FILE="/workspace/minda/github/detect_ws/save_models/pytorch/ssdlite_mobil
 
 mkdir -p logs/
 now=$(date +"%Y_%m_%d")
-python3 /workspace/minda/github/detect_ws/models/research/object_detection/legacy/train.py \
+CUDA_VISIBLE_DEVICES=0 python3 /workspace/minda/github/detect_ws/models/research/object_detection/legacy/train.py \
 --logtostderr \
 --pipeline_config_path=${CONFIG_FILE} \
 --pytorch_weight_path=${WEIGHT_FILE} \
