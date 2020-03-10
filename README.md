@@ -47,7 +47,18 @@
       # for object deetection api 
       export TF_OBJECT_DETECTION="<workspace_path>/models/research:<workspace_path>/models/research/slim"
       export PYTHONPATH="${PYTHONPATH:-${TF_OBJECT_DETECTION}}"
+      
+      # 存檔後 初始環境
+      $ source ~/.bashrc
     ```
+4. 測試環境是否架好
+    ```bash
+    
+      # 如果環境架設沒錯 會顯示 "OK"
+      $ python object_detection/builders/model_builder_test.py
+    
+    ```
+
  
 ## Dataset preparing
 1. Label xml->csv using
