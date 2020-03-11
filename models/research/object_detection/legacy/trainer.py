@@ -434,8 +434,11 @@ def train(create_tensor_dict_fn,
             break
 
           name = all_layer_name[count_layer]
-          weight = weight_dict[name]
           count_layer += 1
+          if(name == 'none'):
+            continue
+            
+          weight = weight_dict[name]
 
           print(vars[ind].name[:-2], vars[ind].shape, name, weight.shape)
           modify_op, feed_dict_init = slim.assign_from_values({
@@ -490,15 +493,11 @@ def check_model():
   sys.exit()
 
 def get_from_file(load_path):
-#   save_path = "/media/minda/storage/pytorch_model/models/mobilenet_fpn_r2_512_bdd_anchor3/weight_tf.pickle"
-  # save_path = "/media/minda/storage/pytorch_model/models/mobilenet_fpn_r2_512_voc_anchor_3/weight_tf.pickle"
   with open(load_path, "rb") as loadfile:
     weight_dict = pickle.load(loadfile)
     return weight_dict
 
 def get_all_layer_name(load_path):
-#   save_path = "/media/minda/storage/pytorch_model/models/mobilenet_fpn_r2_512_bdd_anchor3/layer_name_custom.txt"
-  # save_path = "/media/minda/storage/pytorch_model/models/mobilenet_fpn_r2_512_voc_anchor_3/layer_name_custom.txt"
   with open(load_path, "r") as loadfile:
     all_layer_name = []
     for line in loadfile.readlines():

@@ -982,8 +982,8 @@ def cfe_feature_maps(image_features,
           scope='smoothing_%d' % (level + 1))
 
         # last layer
-        # net = image_features[level][1] + smooth
-        net = smooth
+        net = image_features[level][1] + smooth
+        # net = smooth
 
         output_feature_maps_list.append(net)
         output_feature_map_keys.append('lr_%s' % image_features[level][0])
