@@ -1,0 +1,7 @@
+{
+  "PATH_TO_DATASET": "/workspace/minda/github/detect_ws/dataset/bdd/BDD_test",
+  "PATH_TO_LABELS": "../label/bdd_label_map_custom.pbtxt",
+  "NUM_CLASSES": 7,
+  
+  "OUT_PATH": "/workspace/minda/github/detect_ws/dataset/bdd/BDD_test/val.txt"
+}
