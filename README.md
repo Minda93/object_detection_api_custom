@@ -62,16 +62,16 @@
  
 ## Dataset preparing
 1. Label xml->csv using
-    A. 編輯 xml2csv_config.json
-        * 強調資料集裡的 xml 須為 VOC 格式
-    ```bash
-        * label_path: 資料集的標註檔案位置(.xml)
-        * out_path: 輸出csv檔案的位置與檔名(.csv)
-    ```
-    B. 執行
-    ```bash
-      $ python xml_to_csv.py --config_path <your_xml2csv_config_json_path>
-    ```
+  A. 編輯 xml2csv_config.json
+    * 強調資料集裡的 xml 須為 VOC 格式
+  ```bash
+    * label_path: 資料集的標註檔案位置(.xml)
+    * out_path: 輸出csv檔案的位置與檔名(.csv)
+  ```
+  B. 執行
+  ```bash
+    $ python xml_to_csv.py --config_path <your_xml2csv_config_json_path>
+  ```
 2. csv to tfrecord
     A. 編輯 generate_tfrecord_config.json
     ```bash
@@ -148,7 +148,7 @@
       # 量化訓練
       graph_rewriter {
         quantization {
-          # 量化統計 根據需求調整 通常等 float模型 穩定在執行
+          # 量化統計 根據需求調整 通常等 float模型 穩定再執行
           delay: 1000
 
           weight_bits: 8
@@ -210,13 +210,15 @@
         
         * RESULT_OUT : 結果儲存位置
         
-        # 未用到
+        # test mAP
+        * USE_07_METRIC : 是否使用 voc 2007 evaluation
+        * VAL_THRESHOLD : 驗證 bbox 的門檻
+        * VAL_MAP :  用於驗證精準度之測試集位置
+        * VAL_MAP_OUT : 輸出驗證結果
+        
+        # 尚未驗證
         * PATH_TFLITE : tflite 模型位置
         * PATH_TPU : edgetpu 模型位置
-        
-        # 目前廢棄
-        * VAL_MAP :  用於驗證精準度之測試集位置
-        * VAL_MAP_OUT : 輸出測試格式
     ```
     B. 執行 demo
     ```bash
@@ -236,17 +238,77 @@
             --save=false
 
             # 顯示圖片
-            --show=true
+            --show=false
+    ```
+## Evaluation model
+1. 生成驗證資料
+    A. 編輯 parse_voc_xml.json
+    ```bash
+        * PATH_TO_DATASET : 驗證資料集位置 (voc 格式)
+        * PATH_TO_LABELS : dataset class label 位置
+        * OUT_PATH : 輸出驗證資料位置
+    ```
+    B. 生成
+    ```bash
+        $ python parse_voc_xml.py
+        
+        # args
+            # 參數檔位置
+            --config_path = <path_of_parse_voc_xml.json>
+     ```
+2. 執行驗證
+    A. 編輯 detect_process.json
+    ```bash
+        * PATH_FROZEN_GRAPH : 固化模型位置
+        * PATH_TO_LABELS : dataset class label 位置
+        * DATASET_NAME: our, voc case
+        * NUM_CLASSES: class num
+        * THRESHOLD_BBOX: bounding box 閥值
+        
+        * VIDEO_FILE : 測試影片位置
+        * IMAGE_DATASET : 測試多張圖片位置
+        * SINGE_IMAGE : 測試單張圖片位置
+        
+        * RESULT_OUT : 結果儲存位置
+        
+        # test mAP
+        * USE_07_METRIC : 是否使用 voc 2007 evaluation
+        * VAL_THRESHOLD : 驗證 bbox 的門檻
+        * VAL_MAP :  用於驗證精準度之測試集位置
+        * VAL_MAP_OUT : 輸出驗證結果
+        
+        # 尚未驗證
+        * PATH_TFLITE : tflite 模型位置
+        * PATH_TPU : edgetpu 模型位置
+    ```
+    B. 執行
+    ```bash
+        $ python detect_process.py
+        
+        # args
+            # 參數檔位置
+            --config_path = <path_of_detect_process.json>
+
+            # 選擇模型 <graph tflite tpu>
+            --engine=graph
+
+            # 驗證模式 map
+            --mode=map
     ```
 
 ## TO DOO
 1. 新增權重載點
-2. 調整 tensorflow model 計算 mAP 下降 2 % (主要原因加入fake quantization node)
-3. 量化訓練調整
-4. 增加 config file 教學
+2. 量化訓練調整
+3. 增加 config file 教學
+4. 測試引擎 (tflite, tpu)
+
+## Questions
+1. load pytorch weight to tensorflow model: mAP 會下降
+    * 主要原因加入fake quantization node
 
 ## Reference
  * [object detection api](https://github.com/tensorflow/models/tree/master/research/object_detection)
  * [lufficc pytorch ssd](https://github.com/lufficc/SSD?fbclid=IwAR2WFi1g6gbpH8GzSBBO-ERHTUIX7VXbPbTtK5Z-kIT1h-dSWlx3GEHkkqc)
  * [object detection api setting](https://blog.gtwang.org/programming/tensorflow-object-detection-api-tutorial/)
  * [google api guide](https://github.com/AcgEuSmile/Tensorboard_object_detection_api)
+ * [YOLOv3_TensorFlow](https://github.com/wizyoung/YOLOv3_TensorFlow)

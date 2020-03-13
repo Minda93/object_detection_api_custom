@@ -7,10 +7,13 @@ import numpy as np
 import time
 import cv2
 from PIL import Image
+from tqdm import trange
 
 """ lib """
 from object_detection.utils import label_map_util
 from lib.utility import load_config
+from lib.utility.eval_utils import parse_gt_rec, voc_eval
+from lib.utility.misc_utils import AverageMeter
 
 DELAY_TIME = 2000
 
@@ -119,34 +122,52 @@ def draw_BBox(frame,bboxes,min_score_thresh = 0.2,dataset="our"):
         cv2.putText(frame, bbox['id'], (bbox['bbox']['xmin'], bbox['bbox']['ymax']),
                     font, 1, ColorTable['GREEN'], 1, cv2.LINE_AA)
 
-def test_mAP(cfg,engine,args):
-  test_annos = dict()
-  for index, image_path in enumerate(glob.glob(cfg['VAL_MAP']+'/*.jpg')):
-    image_id = image_path.rstrip().split('/')[-1]
+def test_mAP(cfg, engine, args):
+  """
+    dict format : {img_id: bbox1, bbox2, ...}
+    bbox format : [[xmin, ymin, xmax, ymax, id], [...], ...]
 
-    image = Image.open(image_path)
-    image_np = np.array(image).astype(np.uint8)
-    im_height, im_width, _ = image_np.shape
-    # image = cv2.imread(image_path,cv2.IMREAD_COLOR)
-    # image_np = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
-    # im_height, im_width, _ = image.shape
-
-    if(args.engine == 'graph'):
-      frame_expanded = np.expand_dims(image_np, axis=0)
-    elif(args.engine == 'tflite'):
-      frame_resize = cv2.resize(image_np,(512,512))
-      frame_expanded = np.expand_dims(frame_resize, axis=0)
-    elif(args.engine == 'tpu'):
-      frame_expanded = image
-    
-    bboxes, _ = engine.Run(frame_expanded,im_width, im_height)
-    test_annos[image_id] = {'objects':bboxes}
+    val_preds format : [pred_box_0, pred_box_1]
+    pred_box format : [image_id, x_min, y_min, x_max, y_max, score, label]
+  """
+  # ground true
+  gt_dict, pic_dict = parse_gt_rec(cfg['VAL_MAP'], target_img_size=[512, 512], letterbox_resize=False)
   
-  test_annos = {'imgs': test_annos}
-  fd = open(cfg['VAL_MAP_OUT'], 'w')
-  json.dump(test_annos, fd)
-  fd.close()
-  print("success")
+  # predict
+  val_preds = []
+  for key in trange(len(gt_dict.keys())):
+    frame = cv2.imread(pic_dict[key], cv2.IMREAD_COLOR)
+    frame_rgb = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
+    im_height, im_width, _ = frame.shape
+    
+    if(args.engine == 'graph'):
+        frame_expanded = np.expand_dims(frame_rgb, axis=0)
+    elif(args.engine == 'tflite'):
+        frame_resize = cv2.resize(frame_rgb,(512,512))
+        frame_expanded = np.expand_dims(frame_resize, axis=0)
+    elif(args.engine == 'tpu'):
+        frame_expanded = Image.fromarray(frame_rgb)
+    
+    
+    pred_content = engine.Run(frame_expanded, im_width, im_height, key)
+    val_preds.extend(pred_content)
+  
+  print('predict success')
+  
+  rec_total, prec_total, ap_total = AverageMeter(), AverageMeter(), AverageMeter()
+  
+  print('mAP eval:')
+  for ii in range(1, cfg['NUM_CLASSES']+1):
+    npos, nd, rec, prec, ap = voc_eval(gt_dict, val_preds, ii, iou_thres=0.5, use_07_metric=cfg['USE_07_METRIC'])
+    rec_total.update(rec, npos)
+    prec_total.update(prec, nd)
+    ap_total.update(ap, 1)
+    print('Class {}: Recall: {:.4f}, Precision: {:.4f}, AP: {:.4f}'.format(ii, rec, prec, ap))
+  
+  mAP = ap_total.average
+  print('final mAP: {:.4f}'.format(mAP))
+  print("recall: {:.3f}, precision: {:.3f}".format(rec_total.average, prec_total.average))
+    
 
 def show_image(cfg,engine,args,mode = 'single'):
 

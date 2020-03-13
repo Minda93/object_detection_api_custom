@@ -7,6 +7,8 @@ class Engine(object):
     self.cfg = cfg
     self.category_index = category_index
     self.Init_Graph()
+    
+    self.val_threshold = cfg['VAL_THRESHOLD']
 
     """ gpu process """
     config = tf.ConfigProto()
@@ -41,7 +43,7 @@ class Engine(object):
 
     return image_tensor, out
   
-  def Get_Results(self,boxes, classes, scores, im_width, im_height,min_score_thresh=.2):
+  def Get_Results(self,boxes, classes, scores, im_width, im_height, min_score_thresh=.2):
     bboxes = list()
     for i, box in enumerate(boxes):
       if scores[i] > min_score_thresh:
@@ -54,28 +56,52 @@ class Engine(object):
               'ymin': int(ymin * im_height)
           },
           'id': self.category_index[classes[i]]['name'],
+          'id_index': classes[i],
           'score': float(scores[i])
         }
         bboxes.append(bbox)
     return bboxes
   
-  def Run(self,image,im_width,im_height):
+  def Run(self, image, im_width, im_height, image_id = None):
+    
     boxes, classes, scores, num_detections =  self.sess.run(self.out,\
                     feed_dict={self.image_tensor: image})
-    
+
     # print(len(boxes)) 
     # print(boxes)
     # print(classes)
     # print(scores)
     # print(num_detections)
-    
-    bboxes = self.Get_Results(np.squeeze(boxes),\
-                              np.squeeze(classes).astype(np.int32),\
-                              np.squeeze(scores),\
-                              im_width, im_height)
 
-    return bboxes, num_detections
-  
+    
+      
+    if(image_id == None):
+      bboxes = self.Get_Results(
+               np.squeeze(boxes),\
+               np.squeeze(classes).astype(np.int32),\
+               np.squeeze(scores),\
+               im_width, im_height)
+      return bboxes, num_detections
+    else:
+      bboxes = self.Get_Results(
+               np.squeeze(boxes),\
+               np.squeeze(classes).astype(np.int32),\
+               np.squeeze(scores),\
+               im_width, im_height,\
+               self.val_threshold)  
+        
+      pred_content = []
+      for item in bboxes:
+        pred_content.append(
+        [image_id, \
+         item['bbox']['xmin'], \
+         item['bbox']['ymin'], \
+         item['bbox']['xmax'], \
+         item['bbox']['ymax'], \
+         item['score'], \
+         item['id_index']])
+        
+      return pred_content
 
 if __name__ == "__main__":
     main()
