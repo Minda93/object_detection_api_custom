@@ -38,7 +38,7 @@ def parse_args():
   
   parser.add_argument("--show",\
                       type = bool,\
-                      default= True,\
+                      default= False,\
                       help = "show for mode (video, image, images)")
   
   args = parser.parse_args()
