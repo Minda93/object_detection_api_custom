@@ -22,56 +22,56 @@
 ## Object detection api setting
 
 1. 安裝相依套件
-    ```bash
-      $ sudo apt-get install protobuf-compiler python-pil python-lxml
-      $ pip install pillow
-      $ pip install lxml
-    ```
+  ```bash
+    $ sudo apt-get install protobuf-compiler python-pil python-lxml
+    $ pip install pillow
+    $ pip install lxml
+  ```
 2. env setting command:
-    ```bash
-      # 移動到你的工作空間底下
-      $ cd <workspace_path>
+  ```bash
+    # 移動到你的工作空間底下
+    $ cd <workspace_path>
 
-      # 移動到該資料夾底下
-      $ cd models/research/
+    # 移動到該資料夾底下
+    $ cd models/research/
 
-      # 編譯protobuf
-      $ protoc object_detection/protos/*.proto --python_out=.
-    ```
+    # 編譯protobuf
+    $ protoc object_detection/protos/*.proto --python_out=.
+  ```
 3. 設定 PYTHONPATH 之環境變數
-    ```bash
-      $ vim ~/.bashrc
+  ```bash
+    $ vim ~/.bashrc
 
-      * 在最後ㄧ行加入以下指令
+    * 在最後ㄧ行加入以下指令
 
-      # for object deetection api 
-      export TF_OBJECT_DETECTION="<workspace_path>/models/research:<workspace_path>/models/research/slim"
-      export PYTHONPATH="${PYTHONPATH:-${TF_OBJECT_DETECTION}}"
+    # for object deetection api 
+    export TF_OBJECT_DETECTION="<workspace_path>/models/research:<workspace_path>/models/research/slim"
+    export PYTHONPATH="${PYTHONPATH:-${TF_OBJECT_DETECTION}}"
       
-      # 存檔後 初始環境
-      $ source ~/.bashrc
-    ```
+    # 存檔後 初始環境
+    $ source ~/.bashrc
+  ```
 4. 測試環境是否架好
-    ```bash
+  ```bash
     
-      # 如果環境架設沒錯 會顯示 "OK"
-      $ python object_detection/builders/model_builder_test.py
+    # 如果環境架設沒錯 會顯示 "OK"
+    $ python object_detection/builders/model_builder_test.py
     
-    ```
+  ```
 
  
 ## Dataset preparing
 1. Label xml->csv using
   A. 編輯 xml2csv_config.json
     * 強調資料集裡的 xml 須為 VOC 格式
-  ```bash
-    * label_path: 資料集的標註檔案位置(.xml)
-    * out_path: 輸出csv檔案的位置與檔名(.csv)
-  ```
-  B. 執行
-  ```bash
-    $ python xml_to_csv.py --config_path <your_xml2csv_config_json_path>
-  ```
+    ```bash
+      * label_path: 資料集的標註檔案位置(.xml)
+      * out_path: 輸出csv檔案的位置與檔名(.csv)
+    ```
+    B. 執行
+    ```bash
+      $ python xml_to_csv.py --config_path <your_xml2csv_config_json_path>
+    ```
 2. csv to tfrecord
     A. 編輯 generate_tfrecord_config.json
     ```bash
@@ -80,7 +80,7 @@
       * out_path: 輸出record檔案的位置與檔名(.record)
     ```
     B. 編輯 generate_tfrecord.py 中的 categoryText2Int function
-        * 需符合dataset class 格式
+    * 需符合dataset class 格式
     ```bash
       if label == "bike":
         return 1
