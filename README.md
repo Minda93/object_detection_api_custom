@@ -62,8 +62,8 @@
  
 ## Dataset preparing
 1. Label xml->csv using
-  A. 編輯 xml2csv_config.json
-    * 強調資料集裡的 xml 須為 VOC 格式
+    A. 編輯 xml2csv_config.json
+      * 強調資料集裡的 xml 須為 VOC 格式
     ```bash
       * label_path: 資料集的標註檔案位置(.xml)
       * out_path: 輸出csv檔案的位置與檔名(.csv)
@@ -301,6 +301,8 @@
 2. 量化訓練調整
 3. 增加 config file 教學
 4. 測試引擎 (tflite, tpu)
+5. fpn7 tflite model to tpu model 精準度大幅下降
+6. 新增架設 edgetpu env 教學
 
 ## Questions
 1. load pytorch weight to tensorflow model: mAP 會下降
