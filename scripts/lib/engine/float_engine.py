@@ -43,7 +43,7 @@ class Engine(object):
 
     return image_tensor, out
   
-  def Get_Results(self,boxes, classes, scores, im_width, im_height, min_score_thresh=.2):
+  def Get_Results(self,boxes, classes, scores, im_width, im_height, min_score_thresh=.01):
     bboxes = list()
     for i, box in enumerate(boxes):
       if scores[i] > min_score_thresh:

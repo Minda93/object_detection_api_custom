@@ -1,5 +1,5 @@
 {
-  "PATH_FROZEN_GRAPH": "../save_models/tensorflow/ssdlite_mobilenet_v2_fpn7_512_r2_anchor_3_bdd/save_model/frozen_inference_graph.pb",
+  "PATH_FROZEN_GRAPH": "../out/ssdlite_mobilenet_v2_fpn_512_r2_anchor_3_bdd/save_model/frozen_inference_graph.pb",
   "PATH_TFLITE": "mobilenet.tflite",
   "PATH_TPU": "mobilenet_edgetpu.tflite",
 
@@ -7,15 +7,15 @@
 
   "DATASET_NAME":"our",
   "NUM_CLASSES": 7,
-  "THRESHOLD_BBOX": 0.1,
+  "THRESHOLD_BBOX": 0.5,
 
-  "VIDEO_FILE": "../dataset/video/1_40_00_1080.mp4",
+  "VIDEO_FILE": "../dataset/demo/video/4test_720.mp4",
   "SINGE_IMAGE": "../dataset/demo/images/be559b8b-00000000.jpg",
   "IMAGE_DATASET": "../dataset/waymo/waymo_demo/Unlabel_JPG/FRONT_LEFT",
-  "RESULT_OUT": "../out/demo/ssdlite_mobilenet_v2_fpn7_512_r2_anchor_3_bdd/bbox_result",
+  "RESULT_OUT": "../out/demo/ssdlite_mobilenet_v2_fpn_512_r2_anchor_3_bdd/bbox_result",
  
   "USE_07_METRIC": false,
   "VAL_THRESHOLD": 0.01,
   "VAL_MAP": "/workspace/minda/github/detect_ws/dataset/bdd/BDD_test/val.txt",
-  "VAL_MAP_OUT": "../out/ssdlite_mobilenet_v2_fpn7_512_r2_anchor_3_bdd/eval.txt"
+  "VAL_MAP_OUT": "../out/ssdlite_mobilenet_v2_fpn_512_r2_anchor_3_bdd/eval.txt"
 }

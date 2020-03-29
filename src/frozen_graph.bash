@@ -1,7 +1,9 @@
 # ssd mobilenet v2 fpn r2_anchor_3 bdd
-CONFIG_FILE="/workspace/minda/github/detect_ws/cfg/train/ssdlite_mobilenet_v2_fpn_512_r2_anchor_3_bdd.config"
+# CONFIG_FILE="/workspace/minda/github/detect_ws/cfg/train/ssdlite_mobilenet_v2_fpn_512_r2_anchor_3_bdd_test.config"
 # MODEL_DIR="/workspace/minda/github/detect_ws/save_models/tensorflow/ssdlite_mobilenet_v2_fpn_512_r2_anchor_3_bdd"
+# MODEL_DIR="/workspace/minda/github/detect_ws/out/ssdlite_mobilenet_v2_fpn_512_r2_anchor_3_bdd_test"
 MODEL_DIR="/workspace/minda/github/detect_ws/out/ssdlite_mobilenet_v2_fpn_512_r2_anchor_3_bdd"
+# MODEL_DIR="/workspace/minda/github/detect_ws/out/ssdlite_mobilenet_v2_fpn7_512_r2_anchor_3_bdd"
 CKPT_STEP="0"
 
 # creates the frozen inference graph in fine_tune_model for test
