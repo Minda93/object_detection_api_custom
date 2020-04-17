@@ -6,18 +6,19 @@
 
 ## Environment
 
-| tool              | version  |
-|-------------------|----------|
-| tensorflow-gpu    | 1.14     |
-| cuda              | 10.0.130 |
-| cudnn             | 7.4.1    |
-| python            | 3.6.5    |
-| openCV            | 3.4.5.20 |
-| openCV-contrib    | 3.4.5.20 |
-| pip               | 9.0.3    |
-| protobuf-compiler | 3.0.0    |
-| python-pil        | |
-| python-lxml       | |
+| tool              | version        |
+|-------------------|----------------|
+| tensorflow-gpu    | 1.14 or 1.15   |
+| cuda              | 10.0.130       |
+| cudnn             | 7.4.1 or 7.6   |
+| python            | 3.6.5          |
+| openCV            | 3.4.5.20       |
+| openCV-contrib    | 3.4.5.20       |
+| pip               | 19.3.1 above   |
+| protobuf-compiler | 3.0.0          |
+| python-pil        | 7.1.1          |
+| python-lxml       | 4.5.0          |
+| tqdm              | 4.45.0         |
 
 ## Object detection api setting
 
@@ -62,24 +63,24 @@
  
 ## Dataset preparing
 1. Label xml->csv using
-    A. 編輯 xml2csv_config.json
-      * 強調資料集裡的 xml 須為 VOC 格式
+  A. 編輯 xml2csv_config.json
+    * 強調資料集裡的 xml 須為 VOC 格式
     ```bash
       * label_path: 資料集的標註檔案位置(.xml)
       * out_path: 輸出csv檔案的位置與檔名(.csv)
     ```
-    B. 執行
+  B. 執行
     ```bash
       $ python xml_to_csv.py --config_path <your_xml2csv_config_json_path>
     ```
 2. csv to tfrecord
-    A. 編輯 generate_tfrecord_config.json
+  A. 編輯 generate_tfrecord_config.json
     ```bash
       * csv_path: 上個步驟輸出的csv檔案位置
       * img_path: 資料集的圖片路徑
       * out_path: 輸出record檔案的位置與檔名(.record)
     ```
-    B. 編輯 generate_tfrecord.py 中的 categoryText2Int function
+  B. 編輯 generate_tfrecord.py 中的 categoryText2Int function
     * 需符合dataset class 格式
     ```bash
       if label == "bike":
@@ -90,7 +91,7 @@
          .
          .
     ```
-    C. 執行
+  C. 執行
     ```bash
       $ python generate_tfrecord.py --config_path <your_generate_tfrecord_config_json_path>
     ```
@@ -112,7 +113,7 @@
 
 ## Load pytorch weight
 1. 編輯 config file
-    ```bash
+  ```bash
       train_config {
         # 訓練步數
         num_steps: 1
@@ -155,14 +156,14 @@
           activation_bits: 8
         }
       }
-    ```
+  ```
 2. 生成 tensorflow 模型
-    * 強調 pytorch model 必須與 tensorflow model "一模一樣" 才能讀取 weight
-    * pytorch model 請參考 lufficc pytorch ssd
-    * 讀取權重是利用 "pickle 檔" 讀取
-    
-    A. 編輯 train.bash
-    ```bash
+  * 強調 pytorch model 必須與 tensorflow model "一模一樣" 才能讀取 weight
+  * pytorch model 請參考 lufficc pytorch ssd
+  * 讀取權重是利用 "pickle 檔" 讀取
+  
+  A. 編輯 train.bash
+  ```bash
         python <path_of_train.py>
 
         # 輸出模型位置
@@ -179,11 +180,11 @@
 
         # 讀取 pytorch 權重 (fine_tune_checkpoint 需開啟)
         --load_pytorch=True
-    ```
+   ```
 ## Demo tensorflow model
 1. 固化模型
-    A. 編輯 frozen_graph.bash
-    ```bash
+  A. 編輯 frozen_graph.bash
+  ```bash
         python <path_of_export_inference_graph.py>
         
         # 訓練模型的參數檔位置
@@ -194,10 +195,10 @@
         
         # 固化模型輸出位置
         --output_directory=<output_dir>
-    ```
+  ```
 2. 測試模型
-    A. 編輯 detect_process.json
-    ```bash
+  A. 編輯 detect_process.json
+  ```bash
         * PATH_FROZEN_GRAPH : 固化模型位置
         * PATH_TO_LABELS : dataset class label 位置
         * DATASET_NAME: our, voc case
@@ -219,9 +220,9 @@
         # 尚未驗證
         * PATH_TFLITE : tflite 模型位置
         * PATH_TPU : edgetpu 模型位置
-    ```
-    B. 執行 demo
-    ```bash
+  ```
+  B. 執行 demo
+  ```bash
         $ python detect_process.py
         
         # args
@@ -239,26 +240,26 @@
 
             # 顯示圖片
             --show=false
-    ```
+  ```
 ## Evaluation model
 1. 生成驗證資料
-    A. 編輯 parse_voc_xml.json
-    ```bash
+  A. 編輯 parse_voc_xml.json
+  ```bash
         * PATH_TO_DATASET : 驗證資料集位置 (voc 格式)
         * PATH_TO_LABELS : dataset class label 位置
         * OUT_PATH : 輸出驗證資料位置
-    ```
-    B. 生成
-    ```bash
+  ```
+  B. 生成
+  ```bash
         $ python parse_voc_xml.py
         
         # args
             # 參數檔位置
             --config_path = <path_of_parse_voc_xml.json>
-     ```
+   ```
 2. 執行驗證
-    A. 編輯 detect_process.json
-    ```bash
+  A. 編輯 detect_process.json
+  ```bash
         * PATH_FROZEN_GRAPH : 固化模型位置
         * PATH_TO_LABELS : dataset class label 位置
         * DATASET_NAME: our, voc case
@@ -280,9 +281,9 @@
         # 尚未驗證
         * PATH_TFLITE : tflite 模型位置
         * PATH_TPU : edgetpu 模型位置
-    ```
-    B. 執行
-    ```bash
+  ```
+  B. 執行
+  ```bash
         $ python detect_process.py
         
         # args
@@ -294,19 +295,25 @@
 
             # 驗證模式 map
             --mode=map
-    ```
+  ```
 
 ## TO DOO
 1. 新增權重載點
 2. 量化訓練調整
-3. 增加 config file 教學
-4. 測試引擎 (tflite, tpu)
-5. fpn7 tflite model to tpu model 精準度大幅下降
-6. 新增架設 edgetpu env 教學
+  * tf15 比 tf14 在直接進行量化轉換效果還要好
+  * 量化訓練，還在訓練中
+3. 增加 config file 教學 
+4. 測試引擎 (tflite, tpu)  
+5. 新增架設 tflite, edgetpu env 教學
+6. 新增測試驗證(mAP, fp)
+7. 新增 rfb 和 mixnet 網路架構
+  * rfb 無法量化
 
 ## Questions
 1. load pytorch weight to tensorflow model: mAP 會下降
-    * 主要原因加入fake quantization node
+  * 主要原因加入fake quantization node
+2. fpn7 tflite model to tpu model 精準度大幅下降
+  * edgetpu compiler 可能要等官方更新
 
 ## Reference
  * [object detection api](https://github.com/tensorflow/models/tree/master/research/object_detection)
