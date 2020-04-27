@@ -68,6 +68,8 @@ from object_detection.models.ssd_mobilenet_v2_feature_extractor_custom_v4 import
 from object_detection.models.ssd_mobilenet_v2_feature_extractor_custom_v5 import SSDMobileNetV2CustomV5FeatureExtractor
 from object_detection.models.ssd_mobilenet_v2_feature_extractor_custom_v7 import SSDMobileNetV2CustomV7FeatureExtractor
 from object_detection.models.ssd_mobilenet_v2_feature_extractor_custom_v8 import SSDMobileNetV2CustomV8FeatureExtractor
+from object_detection.models.ssd_mobilenet_v2_feature_extractor_custom_v9 import SSDMobileNetV2CustomV9FeatureExtractor
+from object_detection.models.ssd_mobilenet_v2_feature_extractor_custom_v10 import SSDMobileNetV2CustomV10FeatureExtractor
 
 # A map of names to SSD feature extractors.
 SSD_FEATURE_EXTRACTOR_CLASS_MAP = {
@@ -96,6 +98,8 @@ SSD_FEATURE_EXTRACTOR_CLASS_MAP = {
     'ssd_mobilenet_v2_custom_v5': SSDMobileNetV2CustomV5FeatureExtractor,
     'ssd_mobilenet_v2_custom_v7': SSDMobileNetV2CustomV7FeatureExtractor,
     'ssd_mobilenet_v2_custom_v8': SSDMobileNetV2CustomV8FeatureExtractor,
+    'ssd_mobilenet_v2_custom_v9': SSDMobileNetV2CustomV9FeatureExtractor,
+    'ssd_mobilenet_v2_custom_v10': SSDMobileNetV2CustomV10FeatureExtractor,
 }
 
 SSD_KERAS_FEATURE_EXTRACTOR_CLASS_MAP = {
