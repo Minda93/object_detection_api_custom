@@ -1,5 +1,6 @@
-from tflite_runtime.interpreter import Interpreter
-from tflite_runtime.interpreter import load_delegate
+# from tflite_runtime.interpreter import Interpreter
+# from tflite_runtime.interpreter import load_delegate
+import tensorflow as tf
 import numpy as np
 
 def InRange(number, max, min):
@@ -15,7 +16,8 @@ class Engine(object):
 
   def Init_Engine(self):
     print(self.cfg['PATH_TFLITE'])
-    engine = Interpreter(self.cfg['PATH_TFLITE'])
+#     engine = Interpreter(self.cfg['PATH_TFLITE'])
+    engine = tf.lite.Interpreter(self.cfg['PATH_TFLITE'])
     engine.allocate_tensors()
 
     input_details = engine.get_input_details()

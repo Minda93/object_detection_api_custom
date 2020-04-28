@@ -315,11 +315,17 @@
     * 直接進行量化轉換在 tf15 環境上，效果比在 tf14 還要好 
     * tf15 量化訓練，還在測試中
 3. 增加 config file 教學 
-4. 測試引擎 (tflite, tpu)  
+4. 測試引擎 (tflite, tpu)
+    * tflite on tf15 is ok
 5. 新增架設 tflite, edgetpu env 教學
 6. 新增測試驗證誤報率
-7. 新增 rfb 和 mixnet 網路架構 
+7. 新增 rfb
     * rfb 無法量化
+8. 待測試
+    * 空洞卷積
+    * batchnorm 與 relu 可加的位置
+    * 支援1\*k k\*1 模型
+    * resnet 限制
 
 ## Questions
 1. load pytorch weight to tensorflow model: mAP 會下降 

@@ -21,7 +21,7 @@ def parse_args():
   parser = argparse.ArgumentParser(description='detect process')
   parser.add_argument("--config_path",\
                       type = str,\
-                      default="/workspace/minda/github/detect_ws/cfg/demo/detect_process.json",\
+                      default="/tf/minda/github/detect_ws/cfg/demo/detect_process.json",\
                       help="config path")
 
   parser.add_argument("--engine",\
