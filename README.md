@@ -6,22 +6,23 @@
 
 ## Environment
 
-| tool              | version                 |
-|-------------------|-------------------------|
-| tensorflow-gpu    | 1.14 or 1.15            |
-| cuda              | 10.0.130                |
-| cudnn             | 7.4.1(tf14) or 7.6(tf15)|
-| python            | 3.6.5                   |
-| openCV            | 3.4.5.20                |
-| openCV-contrib    | 3.4.5.20                |
-| pip               | 19.3.1 above            |
-| protobuf-compiler | 3.0.0                   |
-| python-pil        | 7.1.1                   |
-| python-lxml       | 4.5.0                   |
-| tqdm              | 4.45.0                  |
-| edgetpu_compiler  | 2.1.302470888           |
-| edgetpu_runtime   | 13                      |
-| tflite_runtime    |                         |
+| tool                | version                   |
+|---------------------|---------------------------|
+| tensorflow-gpu      | 1.14 or 1.15              |
+| tensorflow-datasets | 3.1.0 (tensorflow >= 1.15)|
+| cuda                | 10.0.130                  |
+| cudnn               | 7.4.1 (1.14) or 7.6 (1.15)|
+| python              | 3.6.5                     |
+| openCV              | 3.4.5.20                  |
+| openCV-contrib      | 3.4.5.20                  |
+| pip                 | 19.3.1 above              |
+| protobuf-compiler   | 3.0.0                     |
+| python-pil          | 7.1.1                     |
+| python-lxml         | 4.5.0                     |
+| tqdm                | 4.45.0                    |
+| edgetpu_compiler    | 2.1.302470888             |
+| edgetpu_runtime     | 13                        |
+| tflite_runtime      |                           |
 
 ## Object detection api setting 
 
@@ -309,6 +310,10 @@
         --mode=map
     ```
 
+## DOING
+1. 架設專門測試 neural network block 等程式
+2. tf15 量化訓練
+
 ## TO DOO
 1. 新增權重載點
 2. 量化訓練調整 
@@ -339,3 +344,5 @@
  * [object detection api setting](https://blog.gtwang.org/programming/tensorflow-object-detection-api-tutorial/)
  * [google api guide](https://github.com/AcgEuSmile/Tensorboard_object_detection_api)
  * [YOLOv3_TensorFlow](https://github.com/wizyoung/YOLOv3_TensorFlow)
+ * [freeze a model](https://blog.metaflow.fr/tensorflow-how-to-freeze-a-model-and-serve-it-with-a-python-api-d4f3596b3adc) 
+ * [PINTO for Full Integer Quantization](https://qiita.com/PINTO/items/1312d308b553362a8ebf)
