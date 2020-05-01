@@ -5,7 +5,7 @@ import numpy as np
 from tensorflow.examples.tutorials.mnist import input_data
 
 # lib 
-from lib.layer.model_1 import model
+from lib.builder.model_builder import ModelBuilder
 
 IMAGE_SIZE  = 28
 NUM_CLASSES = 10
@@ -30,16 +30,20 @@ def Loss(logits, labels):
 
 # run train
 def Run_Train(dataset):
-  with tf.Graph().as_default():
+  with tf.Graph().as_default() as graph:
     # define input
     x_image = tf.placeholder("float", shape=[None, IMAGE_SIZE * IMAGE_SIZE])
     y_label = tf.placeholder("float", shape=[None, NUM_CLASSES])
   
     # build model
-    logits = model(x_image, IMAGE_SIZE , NUM_CLASSES, training=True)
+    model = ModelBuilder("model_1")
+    logits = model.build(x_image, IMAGE_SIZE , NUM_CLASSES, training=True)
 
     # define op
-    loss_value = Loss(logits, y_label) 
+    loss_value = Loss(logits, y_label)
+    
+    tf.contrib.quantize.create_training_graph(input_graph=graph, quant_delay=0)
+    
     train_op = Training(loss_value,1e-4) 
     accur = Accuracy(logits, y_label) 
     

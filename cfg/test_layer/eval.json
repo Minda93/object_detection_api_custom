@@ -1,0 +1,11 @@
+{
+  "MODEL_NAME": "model_1",
+   
+  "INPUT_SIZE": [784],
+  "OUTPUT_SIZE": [10],
+  
+  "INPUT_NODE_NAMES": ["input"],
+  "OUTPUT_NODE_NAMES": ["output"],
+
+  "SAVE_MODEL_PATH": "./out"
+}

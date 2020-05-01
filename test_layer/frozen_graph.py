@@ -2,6 +2,9 @@ import os
 import sys
 import tensorflow as tf
 
+# lib 
+from lib.builder.model_builder import ModelBuilder
+
 
 def mkdir(*directories):
     for directory in list(directories):
@@ -47,9 +50,22 @@ def freeze_graph(model_dir, output_node_names):
     # We start a session using a temporary fresh Graph
     with tf.Session(graph=tf.Graph()) as sess:
         # We import the meta graph in the current default Graph
-        saver = tf.train.import_meta_graph(input_checkpoint + '.meta', clear_devices=clear_devices)
+#         saver = tf.train.import_meta_graph(input_checkpoint + '.meta', clear_devices=clear_devices)
+        
+
+        # define input
+        x_image = tf.placeholder("float", shape=[None, 28 * 28])
+        y_label = tf.placeholder("float", shape=[None, 10])
+  
+        # build model
+        model = ModelBuilder("model_1")
+        logits = model.build(x_image, 28 , 10, training=False)
+        
+        g = tf.get_default_graph()
+        tf.contrib.quantize.create_eval_graph(input_graph=g)
 
         # We restore the weights
+        saver = tf.train.Saver()
         saver.restore(sess, input_checkpoint)
         
         # backup ckpt

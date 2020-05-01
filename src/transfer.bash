@@ -2,22 +2,22 @@
 # CONFIG_FILE="/workspace/minda/github/detect_ws/cfg/train/ssdlite_mobilenet_v2_fpn_512_r2_anchor_3_bdd_test.config"
 # MODEL_DIR="/workspace/minda/github/detect_ws/out/ssdlite_mobilenet_v2_fpn_512_r2_anchor_3_bdd_test"
 MODEL_DIR="/workspace/minda/github/detect_ws/out/ssdlite_mobilenet_v2_fpn_512_r2_anchor_3_bdd"
-# MODEL_DIR="/workspace/minda/github/detect_ws/out/ssdlite_mobilenet_v2_fpn7_512_r2_anchor_3_bdd"
+# MODEL_DIR="/workspace/minda/github/detect_ws/save_models/tensorflow/ssdlite_mobilenet_v2_fpn_512_r2_anchor_3_bdd"
 CKPT_STEP="0"
 
-
+# CUDA_VISIBLE_DEVICES=1
 # create the tensorflow lite graph
-python3 /workspace/minda/github/detect_ws/models/research/object_detection/export_tflite_ssd_graph.py \
+CUDA_VISIBLE_DEVICES=1 python3 /workspace/minda/github/detect_ws/models/research/object_detection/export_tflite_ssd_graph.py \
 --pipeline_config_path=${MODEL_DIR}/pipeline.config \
 --trained_checkpoint_prefix=${MODEL_DIR}/model.ckpt-${CKPT_STEP} \
 --output_directory=${MODEL_DIR}/tflite \
 --add_postprocessing_op=true \
---max_detections=100
+--max_detections=30
 
 
 # CONVERTING frozen graph to quantized TF Lite file...
 tflite_convert \
-  --output_file=${MODEL_DIR}/tflite/mobilenet.tflite \
+  --output_file=${MODEL_DIR}/tflite/mobilenet_30.tflite \
   --graph_def_file=${MODEL_DIR}/tflite/tflite_graph.pb \
   --inference_type=QUANTIZED_UINT8 \
   --input_arrays='normalized_input_image_tensor' \

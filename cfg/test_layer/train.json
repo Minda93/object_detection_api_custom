@@ -1,0 +1,7 @@
+{
+  "MODEL_NAME": "model_1",
+    
+  "SAVE_MODEL_PATH": "./out",
+  "INPUT_SIZE":, [784]
+  "OUTPUT_SIZE": [10]
+}
