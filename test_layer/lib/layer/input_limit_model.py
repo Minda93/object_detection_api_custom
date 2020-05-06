@@ -6,7 +6,7 @@ from object_detection.utils import shape_utils
 slim = contrib_slim
 
 
-def model_2(inputs, input_size, output_size, training=False):
+def input_limit_model(inputs, input_size, output_size, training=False):
   
     # param
     normalizer_params = {

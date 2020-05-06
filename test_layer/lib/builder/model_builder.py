@@ -1,11 +1,11 @@
 import tensorflow as tf
 
 from lib.layer.model_1 import model
-from lib.layer.model_2 import model_2
+from lib.layer.input_limit_model import input_limit_model
 
 MODEL_MAP = {
   "model_1": model,
-  "model_2": model_2,
+  "input_limit_model": input_limit_model,
 }
 
 

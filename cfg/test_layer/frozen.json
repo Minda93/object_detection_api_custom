@@ -1,5 +1,5 @@
 {
-  "MODEL_NAME": "model_2",
+  "MODEL_NAME": "input_limit_model",
    
   "INPUT_SIZE": [640,640,3],
   "OUTPUT_SIZE": [32],

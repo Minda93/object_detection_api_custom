@@ -1,4 +1,4 @@
-MODEL_DIR="/tf/minda/github/detect_ws/test_layer/out/model_2/save_models"
+MODEL_DIR="/tf/minda/github/detect_ws/test_layer/out/input_limit_model/save_models"
 tflite_convert \
   --output_file=${MODEL_DIR}/test.tflite \
   --graph_def_file=${MODEL_DIR}/optimized_model.pb \
