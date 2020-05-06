@@ -1,9 +1,11 @@
 import tensorflow as tf
 
 from lib.layer.model_1 import model
+from lib.layer.model_2 import model_2
 
 MODEL_MAP = {
   "model_1": model,
+  "model_2": model_2,
 }
 
 

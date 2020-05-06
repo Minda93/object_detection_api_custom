@@ -1,0 +1,11 @@
+{
+  "MODEL_NAME": "model_2",
+   
+  "INPUT_SIZE": [640,640,3],
+  "OUTPUT_SIZE": [32],
+  
+  "INPUT_NODE_NAMES": ["inputs"],
+  "OUTPUT_NODE_NAMES": ["outputs"],
+
+  "SAVE_MODEL_PATH": "./out"
+}
