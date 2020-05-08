@@ -310,6 +310,15 @@
         --mode=map
     ```
 
+## Mkdir folder
+1. dataset
+  * tfrecord : tensorflow model train use tfrecord
+2. save_models
+  * pytorch : pytorch model ( weight, ckpt, layer_name_custom.txt, layer_name_tf.txt)  
+  * tensorflow : 通常會放讀完權重的模型 尚未訓練的 (權重讀取在docker中需要數十分鐘, 因此方便下次直接讀取模型)
+3. out 
+
+
 ## Test model 
 1. ssdlite_mobilenet_v2_fpn_512_r2_anchor_3_bdd_15.config
 2. ssdlite_mobilenet_v2_fpn6_512_mixconv_anchor_3_bdd_better.config
@@ -317,6 +326,7 @@
 ## DOING
 1. 架設專門測試 neural network block 等程式
 2. tf15 量化訓練
+3. 新增測試驗證誤報率
 
 ## TO DOO
 1. 新增權重載點
