@@ -1,8 +1,8 @@
 {
-  "MODEL_NAME": "input_limit_model",
+  "MODEL_NAME": "mobile_block_test",
    
-  "INPUT_SIZE": [640,640,3],
-  "OUTPUT_SIZE": [32],
+  "INPUT_SIZE": [64,64,32],
+  "OUTPUT_SIZE": [256],
   
   "INPUT_NODE_NAMES": ["inputs"],
   "OUTPUT_NODE_NAMES": ["outputs"],

@@ -310,6 +310,10 @@
         --mode=map
     ```
 
+## Test model 
+1. ssdlite_mobilenet_v2_fpn_512_r2_anchor_3_bdd_15.config
+2. ssdlite_mobilenet_v2_fpn6_512_mixconv_anchor_3_bdd_better.config
+
 ## DOING
 1. 架設專門測試 neural network block 等程式
 2. tf15 量化訓練

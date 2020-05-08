@@ -2,10 +2,12 @@ import tensorflow as tf
 
 from lib.layer.model_1 import model
 from lib.layer.input_limit_model import input_limit_model
+from lib.layer.mobile_block import mobile_block_test
 
 MODEL_MAP = {
   "model_1": model,
   "input_limit_model": input_limit_model,
+  "mobile_block_test": mobile_block_test,
 }
 
 
