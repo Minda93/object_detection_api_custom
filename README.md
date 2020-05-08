@@ -312,10 +312,10 @@
 
 ## Mkdir folder
 1. dataset
-  * tfrecord : tensorflow model train use tfrecord
+    * tfrecord : tensorflow model train use tfrecord
 2. save_models
-  * pytorch : pytorch model ( weight, ckpt, layer_name_custom.txt, layer_name_tf.txt)  
-  * tensorflow : 通常會放讀完權重的模型 尚未訓練的 (權重讀取在docker中需要數十分鐘, 因此方便下次直接讀取模型)
+    * pytorch : pytorch model ( weight, ckpt, layer_name_custom.txt, layer_name_tf.txt)  
+    * tensorflow : 通常會放讀完權重的模型 尚未訓練的 (權重讀取在docker中需要數十分鐘, 因此方便下次直接讀取模型)
 3. out 
 
 
