@@ -1,7 +1,7 @@
 # object_detection_api_custom
 
 
-# ssd_mobilenet_v2_fpn_r2_anchor_3
+# pytorch model weight to tensorflow model
 
 
 ## Environment
