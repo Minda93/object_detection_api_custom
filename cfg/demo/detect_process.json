@@ -1,5 +1,5 @@
 {
-  "PATH_FROZEN_GRAPH": "../out/ssdlite_mobilenet_v2_fpn6_512_mixconv_anchor_3_bdd_better_15/0/save_model/frozen_inference_graph.pb",
+  "PATH_FROZEN_GRAPH": "../out/ssdlite_mobilenet_v2_fpn6_512_mixconv_anchor_3_bdd_better_test_15/20524/save_model/frozen_inference_graph.pb",
   "PATH_TFLITE": "../out/ssdlite_mobilenet_v2_fpn6_512_mixconv_anchor_3_bdd_better_15/0/tflite/mobilenet.tflite",
   "PATH_TPU": "mobilenet_edgetpu.tflite",
 
@@ -15,7 +15,8 @@
   "RESULT_OUT": "../out/demo/ssdlite_mobilenet_v2_fpn6_512_mixconv_anchor_3_bdd_better_15/bbox_result",
  
   "USE_07_METRIC": false,
+  "FP_THRESHOLD": 0.3,
   "VAL_THRESHOLD": 0.01,
-  "VAL_MAP": "/workspace/minda/github/detect_ws/dataset/bdd/BDD_test/val.txt",
+  "VAL_MAP": "../dataset/bdd/BDD_test/val.txt",
   "VAL_MAP_OUT": "../out/ssdlite_mobilenet_v2_fpn_512_r2_anchor_3_bdd/eval.txt"
 }

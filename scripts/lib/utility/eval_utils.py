@@ -433,3 +433,88 @@ def voc_eval(gt_dict, val_preds, classidx, iou_thres=0.5, use_07_metric=False):
 
     # return rec, prec, ap
     return npos, nd, tp[-1] / float(npos), tp[-1] / float(nd), ap
+
+def voc_eval_fp_custom(gt_dict, val_preds, fp_threshold):
+    '''
+    Top level function that does the PASCAL VOC evaluation.
+    '''
+    # 1.obtain gt: extract all gt objects for this class
+    class_recs = {}
+    npos = 0
+    for img_id in gt_dict:
+        R = [obj for obj in gt_dict[img_id]]
+        bbox = np.array([x[:4] for x in R])
+        det = [False] * len(R)
+        npos += len(R)
+        class_recs[img_id] = {'bbox': bbox, 'det': det}
+
+    # 2. obtain pred results
+    pred = [x for x in val_preds]
+    img_ids = [x[0] for x in pred if x[5] >= fp_threshold]
+    confidence = np.array([x[-2] for x in pred if x[5] >= fp_threshold])
+    BB = np.array([[x[1], x[2], x[3], x[4]] for x in pred if x[5] >= fp_threshold])
+
+    # 3. sort by confidence
+    sorted_ind = np.argsort(-confidence)
+    try:
+        BB = BB[sorted_ind, :]
+    except:
+        print('no box, ignore')
+        return 1e-6, 1e-6
+    img_ids = [img_ids[x] for x in sorted_ind]
+
+    # 4. mark TPs and FPs
+    nd = len(img_ids)
+    tp = np.zeros(nd)
+    fp = np.zeros(nd)
+
+    for d in range(nd):
+        # all the gt info in some image
+        R = class_recs[img_ids[d]]
+        bb = BB[d, :]
+        ovmax = -np.Inf
+        BBGT = R['bbox']
+
+        if BBGT.size > 0:
+            # calc iou
+            # intersection
+            ixmin = np.maximum(BBGT[:, 0], bb[0])
+            iymin = np.maximum(BBGT[:, 1], bb[1])
+            ixmax = np.minimum(BBGT[:, 2], bb[2])
+            iymax = np.minimum(BBGT[:, 3], bb[3])
+            iw = np.maximum(ixmax - ixmin + 1., 0.)
+            ih = np.maximum(iymax - iymin + 1., 0.)
+            inters = iw * ih
+
+            # union
+            uni = ((bb[2] - bb[0] + 1.) * (bb[3] - bb[1] + 1.) + (BBGT[:, 2] - BBGT[:, 0] + 1.) * (
+                        BBGT[:, 3] - BBGT[:, 1] + 1.) - inters)
+
+            overlaps = inters / uni
+            ovmax = np.max(overlaps)
+            jmax = np.argmax(overlaps)
+
+        # if ovmax > iou_thres:
+        #     # gt not matched yet
+        #     if not R['det'][jmax]:
+        #         tp[d] = 1.
+        #         R['det'][jmax] = 1
+        #     else:
+        #         fp[d] = 1.
+        # else:
+        #     fp[d] = 1.
+        
+        if ovmax > 0:
+            # gt not matched yet
+            tp[d] = 1.
+        else:
+            fp[d] = 1.
+
+    # compute precision recall
+    # fp = np.cumsum(fp)
+    # fp_value = np.cumsum(fp)
+    tp_value = np.sum(tp)
+    fp_value = np.sum(fp)
+    print("tp: {}, fp : {}, nd : {}".format(tp_value, fp_value, nd))
+    # return rec, prec, ap
+    return fp_value, nd
