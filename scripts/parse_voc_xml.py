@@ -13,7 +13,7 @@ def parse_args():
   parser.add_argument(
     "--config_path",\
     type = str,\
-    default="/workspace/minda/github/detect_ws/cfg/data/parse_voc_xml.json",\
+    default="/tf/minda/github/detect_ws/cfg/data/parse_voc_xml.json",\
     help="config path")
 
   args = parser.parse_args()
