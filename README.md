@@ -326,7 +326,7 @@
 ## DOING
 1. 架設專門測試 neural network block 等程式
 2. tf15 量化訓練
-3. 新增測試驗證誤報率
+    * tflite model 轉換 edgetpu model 準確率會下降 5% 
 
 ## TO DOO
 1. 新增權重載點
@@ -337,10 +337,9 @@
 4. 測試引擎 (tflite, tpu)
     * tflite on tf15 is ok
 5. 新增架設 tflite, edgetpu env 教學
-6. 新增測試驗證誤報率
-7. 新增 rfb
+6. 新增 rfb
     * rfb 無法量化
-8. 待測試
+7. 待測試
     * 空洞卷積
     * batchnorm 與 relu 可加的位置
     * 支援1\*k k\*1 模型
@@ -351,6 +350,8 @@
     * 主要原因加入fake quantization node
 2. fpn7 tflite model to tpu model 精準度大幅下降 
     * edgetpu compiler 可能要等官方更新
+3. tflite model 轉換 edgetpu model 準確率會下降 5%
+    * mixconv
 
 ## Reference
  * [object detection api](https://github.com/tensorflow/models/tree/master/research/object_detection)
