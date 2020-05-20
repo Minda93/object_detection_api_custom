@@ -260,6 +260,7 @@
     ```json
       * PATH_TO_DATASET : 驗證資料集位置 (voc 格式)
       * PATH_TO_LABELS : dataset class label 位置
+      * NUM_CLASSES : 類別數量 
       * OUT_PATH : 輸出驗證資料位置
     ```
     1.2. 生成
@@ -287,6 +288,7 @@
         
       # test mAP
       * USE_07_METRIC : 是否使用 voc 2007 evaluation
+      * FP_THRESHOLD : 誤報率的門檻
       * VAL_THRESHOLD : 驗證 bbox 的門檻
       * VAL_MAP :  用於驗證精準度之測試集位置
       * VAL_MAP_OUT : 輸出驗證結果
@@ -326,7 +328,7 @@
 ## DOING
 1. 架設專門測試 neural network block 等程式
 2. tf15 量化訓練
-    * tflite model 轉換 edgetpu model 準確率會下降 5% 
+    * tflite model 轉換 edgetpu model 準確率會下降 
 
 ## TO DOO
 1. 新增權重載點
@@ -346,11 +348,11 @@
     * resnet 限制
 
 ## Questions
-1. load pytorch weight to tensorflow model: mAP 會下降 
+1. load pytorch weight to tensorflow model: 準確率會下降 
     * 主要原因加入fake quantization node
 2. fpn7 tflite model to tpu model 精準度大幅下降 
     * edgetpu compiler 可能要等官方更新
-3. tflite model 轉換 edgetpu model 準確率會下降 5%
+3. tflite model 轉換 edgetpu model 準確率會下降
     * mixconv
 
 ## Reference
