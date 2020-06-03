@@ -12,7 +12,7 @@ from tqdm import trange
 """ lib """
 from object_detection.utils import label_map_util
 from lib.utility import load_config
-from lib.utility.eval_utils import parse_gt_rec, voc_eval
+from lib.utility.eval_utils import parse_gt_rec, voc_eval, voc_eval_fp_custom
 from lib.utility.misc_utils import AverageMeter
 
 DELAY_TIME = 2000
@@ -154,6 +154,10 @@ def test_mAP(cfg, engine, args):
   
   print('predict success')
   
+  print('mFP eval:')
+  m_fp, m_det = voc_eval_fp_custom(gt_dict, val_preds, cfg['FP_THRESHOLD'])
+  print("final mFP : {} \n".format(m_fp/m_det))
+
   rec_total, prec_total, ap_total = AverageMeter(), AverageMeter(), AverageMeter()
   
   print('mAP eval:')
