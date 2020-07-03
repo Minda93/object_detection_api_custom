@@ -24,7 +24,7 @@
   $ sudo docker images
   
   # run tensorflow container
-  $ sudo docker run -it --runtime nvidia -e NVIDIA_VISIBLE_DEVICES=0 -p 8888:8888 -name <name> -v <share_folder>:/tf/<share_folder> -shm-size='64g' <image_name or image_id>
+  $ sudo docker run -it --runtime nvidia -e NVIDIA_VISIBLE_DEVICES=0 -p 8888:8888 --name <name> -v <share_folder>:/tf/<share_folder> --shm-size='64g' <image_name or image_id>
   
   # 可能有更好的方法
   # check jupyter key
@@ -76,7 +76,7 @@
   # ======================
   
   # install python api
-  $ pip3 install https://dl.google.com/coral/edgetpu_api/edgetpu-2.13.0-py3-none-any.whl
+  $ pip3 install https://dl.google.com/coral/edgetpu_api/edgetpu-2.14.0-py3-none-any.whl
 
   # check edgetpu version
   $ python3 -c "import edgetpu.basic.edgetpu_utils; print(edgetpu.basic.edgetpu_utils.GetRuntimeVersion())"
