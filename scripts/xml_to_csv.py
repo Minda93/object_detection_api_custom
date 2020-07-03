@@ -9,7 +9,7 @@ from lib.utility import load_config
 
 parser = argparse.ArgumentParser(description='convert .xml to .csv')
 parser.add_argument("--config_path", type = str,
-                    default="/workspace/minda/github/detect_ws/cfg/data/xml2csv_config.json", help="config path")
+                    default="/tf/minda/github/detect_ws/cfg/data/xml2csv_config.json", help="config path")
 args = parser.parse_args()
 cfg = load_config.readCfg(args.config_path)
 
